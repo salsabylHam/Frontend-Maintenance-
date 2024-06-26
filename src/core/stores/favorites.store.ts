@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { parse, stringify } from 'zipson'
 import type { Dashboard } from '@interfaces/dashboard'
 
 export interface FavoritesStore {
@@ -34,9 +33,5 @@ export const useFavoritesStore = defineStore('favorites', {
     },
     persist: {
         paths: ['favorites'],
-        serializer: {
-            deserialize: parse,
-            serialize: stringify,
-        },
     },
 })

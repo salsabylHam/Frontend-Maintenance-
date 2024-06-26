@@ -38,7 +38,7 @@ export default defineConfig({
         new URL('./src/shared/classes', import.meta.url),
       ),
       '@composable': fileURLToPath(
-        new URL('./src/shared/composable', import.meta.url),
+        new URL('./src/core/composable', import.meta.url),
       ),
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@stores': fileURLToPath(new URL('./src/core/stores', import.meta.url)),

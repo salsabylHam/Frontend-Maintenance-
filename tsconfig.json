@@ -37,8 +37,8 @@
       "@classes/*": [
         "./src/shared/classes/*"
       ],
-      "@comosable/*": [
-        "./src/shared/comosable/*"
+      "@composable/*": [
+        "./src/core/composable/*"
       ],
       "@constants": [
         "./src/core/constants"

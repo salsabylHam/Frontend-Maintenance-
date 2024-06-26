@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { parse, stringify } from 'zipson'
 import type { Dashboard } from '@interfaces/dashboard'
 
 export interface HistoryStore {
@@ -22,9 +21,5 @@ export const useHistoryStore = defineStore('history', {
     },
     persist: {
         paths: ['history'],
-        serializer: {
-            deserialize: parse,
-            serialize: stringify,
-        },
     },
 })
