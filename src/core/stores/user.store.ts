@@ -2,10 +2,10 @@ import { User } from '@interfaces/user'
 import { defineStore } from 'pinia'
 import { useCookies } from 'vue3-cookies'
 import router from '../routers'
-import { DASHBOARD_ROUTES, ROUTES } from '../constants'
+import { ROUTES, env } from '../constants'
 
 export type UserStore = {
-    user: User | {}
+    user: User
 }
 
 export type LoginRequestType = {
@@ -22,31 +22,36 @@ export interface AuthProviders {
     name: string
     provider: PROVIDER
 }
+export interface UserRateState {
+    month: number
+    year: number
+    change_percentage: string
+}
 const { cookies } = useCookies()
 
 export const useUserStore = defineStore('user', {
     state: (): UserStore => ({
-        user: {},
+        user: {} as User,
     }),
     actions: {
         async login(body: LoginRequestType) {
-            return window.$axios.post(`/auth/signin`, body).then(async (data: any) => {
-                cookies.set('user-token', data.access_token)
+            return window.$axios.post(`/api/v1/auth/signin`, body).then(async (data: any) => {
+                cookies.set(env.TOKEN_KEY.toString(), data.access_token)
                 this.$patch({ user: data.user })
                 await router.push(ROUTES.MAIN)
             })
         },
         loginWithProvider(id: number, provider: PROVIDER) {
-            const authUrl = `http://localhost:4000/api/v1/auth/${id}/${provider.toString()}`
-            const popup = window.open(authUrl, 'oauthPopup', 'width=600,height=600')
+            const authUrl = `${env.BACKEND_BASE_URL}/api/v1/auth/${id}/${provider.toString()}`
+            const _ = window.open(authUrl, 'Login with ' + provider.toString(), 'width=600,height=600')
             const handleMessage = async (event: MessageEvent) => {
-                if (event.origin !== 'http://localhost:4000') {
+                if (event.origin.toLocaleLowerCase() !== env.BACKEND_BASE_URL.toString().toLocaleLowerCase()) {
                     return
                 }
                 // this responce contains
                 const response = event.data
 
-                cookies.set('user-token', response.access_token)
+                cookies.set(env.TOKEN_KEY.toString(), response.access_token)
                 this.$patch({ user: response.user })
                 await router.push(ROUTES.MAIN)
                 window.removeEventListener('message', handleMessage)
@@ -55,7 +60,24 @@ export const useUserStore = defineStore('user', {
             window.addEventListener('message', handleMessage)
         },
         async getAuthProviders(code: string): Promise<AuthProviders[]> {
-            return window.$axios.get(`/enterprise/${code}/auth`)
+            return window.$axios.get(`${env.BACKEND_BASE_URL}/api/v1/enterprise/${code}/auth`)
+        },
+        async logout() {
+            cookies.remove(env.TOKEN_KEY)
+            this.user = {} as User
+            await router.push('/sign-in')
+        },
+        async getStatisticOverview() {
+            return Promise.all([
+                window.$axios.get(
+                    `${env.BACKEND_BASE_URL}/api/v1/users/statistique/increase-rate`,
+                ),
+                window.$axios.get(
+                    `${env.BACKEND_BASE_URL}/api/v1/users/statistique/count`,
+                ),
+            ]).then((res: any) => {
+                return { rate: res[0], count: res[1] }
+            })
         },
     },
     persist: true,

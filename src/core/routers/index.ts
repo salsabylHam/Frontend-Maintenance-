@@ -6,8 +6,8 @@ const router = createRouter({
     routes: [
         {
             ...ROUTES.HOME,
-            redirect: ROUTES.SIGN_IN.path,
             component: () => import('@pages/LandingPages/Home/Home.vue'),
+            redirect: ROUTES.SIGN_IN.path,
             beforeEnter: authGuard,
             children: [
                 {
@@ -23,8 +23,13 @@ const router = createRouter({
         {
             ...ROUTES.MAIN,
             component: () => import('@pages/Dashboard/MainDashboard.vue'),
+            redirect: DASHBOARD_ROUTES.Overview.path,
             beforeEnter: authGuard,
             children: [
+                {
+                    ...DASHBOARD_ROUTES.Overview,
+                    component: () => import('@pages/Dashboard/Overview/Overview.vue'),
+                },
                 {
                     ...DASHBOARD_ROUTES.STOCKS,
                     component: () => import('@pages/Dashboard/Stocks/Stocks.vue'),

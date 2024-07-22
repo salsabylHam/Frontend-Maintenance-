@@ -8,17 +8,18 @@ import { DASHBOARD_SIDEBAR_LINKS } from '@constants'
 import useUserDropdownMenue from '@/core/composable/useUserdropdownMenue'
 import { useDashboardStore } from '@/core/stores/dashboard.store'
 import { cn } from '@/shared/lib/utils'
+import { useUserStore } from '@/core/stores'
+import { User } from '@/shared/interfaces/user'
+import Skeleton from '@/shared/components/ui/skeleton/Skeleton.vue'
 
 const dashboardStore = useDashboardStore()
+const userStore = useUserStore()
 const userDropdownMenue = useUserDropdownMenue(
     // user data
     {
-        fullName: 'John Doe',
+        fullName: `${(userStore.user as User).firstName} ${(userStore.user as User).lastName}`,
     },
-    // logout function
-    () => {
-        console.log('logout')
-    },
+    async () => userStore.logout(),
 )
 const notifications: NotificationSideBarProps['notification'] = [
     {

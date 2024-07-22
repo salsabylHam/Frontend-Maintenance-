@@ -17,8 +17,8 @@ function useAxios(axios: any) {
     // const notificationStore = useNotificationStore()
     const { toast } = useToast()
     axios.interceptors.request.use((request: any) => {
-        const token = cookies.get(env.TOKEN_KEY)
-        const isApiUrl = request.url.startsWith(env.BACKEND_BASE_URL)
+        const token = cookies.get(env.TOKEN_KEY.toString())
+        const isApiUrl = request.url.startsWith(env.BACKEND_BASE_URL.toString())
         if (token && isApiUrl) {
             request.headers.Authorization = `Bearer ${token}`
         }
@@ -63,7 +63,7 @@ function useAxios(axios: any) {
             })
             if (error.response?.status == 401) {
                 cookies.remove(env.TOKEN_KEY)
-                router.push('/signin')
+                router.push('/sign-in')
             }
             throw error
         },

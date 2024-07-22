@@ -6,9 +6,9 @@ const sidebarNavigation: SideBarProps['config'] = [
         navigations: [
             {
                 type: 'button',
-                label: 'Default',
+                label: 'Overview',
                 icon: 'ph:chart-pie-slice-duotone',
-                to: 'main',
+                to: 'Overview',
             },
             {
                 type: 'button',

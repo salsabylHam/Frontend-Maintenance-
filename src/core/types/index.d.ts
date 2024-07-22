@@ -4,5 +4,10 @@ declare global {
     interface Window {
         $axios: AxiosInstance
     }
+    interface Navigator {
+        userAgent: string
+    }
+
+    var navigator: Navigator
 }
 export {}

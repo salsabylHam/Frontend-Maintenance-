@@ -1,4 +1,5 @@
 const animate = require("tailwindcss-animate")
+const { transform } = require("typescript")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -106,6 +107,10 @@ module.exports = {
           from: { height: 'var(--radix-collapsible-content-height)' },
           to: { height: 0 },
         },
+        'loading':{
+          from:{ transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -113,6 +118,7 @@ module.exports = {
         "collapsible-down": "collapsible-down 0.2s ease-in-out",
         "collapsible-up": "collapsible-up 0.2s ease-in-out",
         spin: 'spin 0.6s ease-in-out forwards',
+        loading: 'loading 1s linear infinite',
         unspin: 'unspin 0.3s ease-in-out forwards',
       },
     },

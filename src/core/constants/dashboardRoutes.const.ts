@@ -3,8 +3,8 @@ export default {
         path: 'stocks',
         name: 'Stockes',
     },
-    DEFAULT: {
-        path: '',
-        name: 'Default',
+    Overview: {
+        path: '/overview',
+        name: 'Overview',
     },
 }
