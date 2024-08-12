@@ -3,15 +3,15 @@ import { h } from 'vue'
 import Checkbox from '../ui/checkbox/Checkbox.vue'
 import DropdownAction from './DropdownAction.vue'
 import DataTableColumnHeader from './DataTableColumnHeader.vue'
-export type Piece = {
+export type Machine = {
     id: number
-    discription: string
-    code: string
-    quantity: string
+    description: string
+    name: string
+    quantity: number
     price: number
 }
 
-export const columns: ColumnDef<Piece>[] = [
+export const columns: ColumnDef<Machine>[] = [
     {
         id: 'select',
         header: ({ table }) =>
@@ -39,17 +39,17 @@ export const columns: ColumnDef<Piece>[] = [
     //     },
     // },
     {
-        accessorKey: 'discription',
-        header: ({ column }) => h(DataTableColumnHeader, { column, title: 'discription' }),
+        accessorKey: 'name',
+        header: ({ column }) => h(DataTableColumnHeader, { column, title: 'name' }),
         cell: ({ row }) => {
-            return h('div', { class: 'flex items-center space-x-2 font-medium' }, row.getValue('discription'))
+            return h('div', { class: 'flex items-center space-x-2 font-medium' }, row.getValue('name'))
         },
     },
     {
-        accessorKey: 'code',
-        header: ({ column }) => h(DataTableColumnHeader, { column, title: 'code' }),
+        accessorKey: 'description',
+        header: ({ column }) => h(DataTableColumnHeader, { column, title: 'description' }),
         cell: ({ row }) => {
-            return h('div', { class: 'flex items-center space-x-2 font-medium' }, row.getValue('code'))
+            return h('div', { class: 'flex items-center space-x-2 font-medium' }, row.getValue('description'))
         },
     },
     {
@@ -76,13 +76,13 @@ export const columns: ColumnDef<Piece>[] = [
         id: 'actions',
         enableHiding: false,
         cell: ({ row }) => {
-            const piece = row.original
+            const machine = row.original
 
             return h(
                 'div',
                 { class: 'relative' },
                 h(DropdownAction, {
-                    piece,
+                    machine,
                 }),
             )
         },

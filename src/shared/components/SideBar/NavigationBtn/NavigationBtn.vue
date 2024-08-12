@@ -16,7 +16,7 @@ const props = defineProps<NavigationBtnProps>()
 const route = useRoute()
 
 const isRoute = (toRoute: string) => {
-    return route.name == toRoute
+    return route.path == toRoute
 }
 </script>
 
@@ -24,18 +24,31 @@ const isRoute = (toRoute: string) => {
     <TooltipProvider>
         <Tooltip>
             <TooltipTrigger as-child>
-                <Button
-                    variant="ghost"
-                    :class="cn('relative md:justify-start justify-center w-full', isRoute(props.to) && 'bg-accent')"
+                <RouterLink
+                    :to="props.to"
+                    :key="props.label"
+                    as-child
+                    class="w-full h-full flex items-center md:space-x-2"
+                    v-slot="{ navigate }"
                 >
-                    <RouterLink :to="{ name: props.to }" as-child class=" w-full h-full flex items-center md:space-x-2">
+                    <Button
+                        :key="props.label"
+                        variant="ghost"
+                        @click="navigate"
+                        :class="cn('relative md:justify-start justify-center w-full', isRoute(props.to) && 'bg-accent')"
+                    >
                         <div class="md:w-6 w-2">
-                            <span v-if="isRoute(props.to)" class="absolute top-1 left-0 h-8 w-2 rounded-sm bg-accent-foreground"> </span>
+                            <span
+                                v-if="isRoute(props.to)"
+                                :key="props.label"
+                                class="absolute top-1 left-0 h-8 w-2 rounded-sm bg-accent-foreground"
+                            >
+                            </span>
                         </div>
-                        <Icon v-if="props.icon" :icon="props.icon" class="w-6 h-6" />
+                        <Icon v-if="props.icon" :key="props.label" :icon="props.icon" class="mr-2 w-6 h-6" />
                         <span class="hidden md:block"> {{ props.label }} </span>
-                    </RouterLink>
-                </Button>
+                    </Button>
+                </RouterLink>
             </TooltipTrigger>
             <TooltipContent side="right" :side-offset="5"> {{ props.label }} </TooltipContent>
         </Tooltip>

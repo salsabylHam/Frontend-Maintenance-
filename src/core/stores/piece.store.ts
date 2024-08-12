@@ -23,10 +23,14 @@ export const usePiecesStore = defineStore('pieces', {
             })
         },
         async createPiece(piece: any) {
-            return window.$axios.post(`${env.BACKEND_BASE_URL}/api/v1/piece`, piece)
+            return window.$axios.post(`${env.BACKEND_BASE_URL}/api/v1/piece`, piece).then((p: any) => {
+                this.$patch({ pieces: [...this.pieces, p as Piece   ] })
+            })
         },
         async deletePiece(id: number) {
-            return window.$axios.delete(`${env.BACKEND_BASE_URL}/api/v1/piece/${id}`)
+            return window.$axios.delete(`${env.BACKEND_BASE_URL}/api/v1/piece/${id}`).then(() => {
+                this.$patch({ pieces: this.pieces.filter((piece) => piece.id != id) })
+            })
         },
         async bulkDeletePieces(pieces: Piece[]) {
             return await Promise.all(pieces.map((piece) => this.deletePiece(piece.id)))

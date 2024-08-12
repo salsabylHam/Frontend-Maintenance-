@@ -2,16 +2,16 @@
 import { onMounted } from 'vue'
 import { columns } from './columns'
 import DataTable from './data-table.vue'
-import { usePiecesStore } from '@/core/stores/piece.store'
 import { storeToRefs } from 'pinia'
+import { useMachineStore } from '@/core/stores'
 
-const piecesStore = usePiecesStore()
-const { pieces } = storeToRefs(piecesStore)
+const machineStore = useMachineStore()
+const { machines } = storeToRefs(machineStore)
 onMounted(async () => {
-    await piecesStore.getPieces({})
+    await machineStore.getMachines({})
 })
 </script>
 
 <template>
-    <DataTable :columns="columns" :data="pieces" />
+    <DataTable :columns="columns" :data="machines" />
 </template>

@@ -21,11 +21,12 @@ const props = defineProps<SideBarProps>()
 
 <template>
     <Transition name="right-sidebar">
-        <div v-if="!props.isSidebarCollapsed" class="fixed z-10 right-0 flex-grow space-y-6 p-5 max-w-[17.5rem] h-full border-l">
+        <div v-show="!props.isSidebarCollapsed" class="md:fixed z-10 right-0 flex-grow space-y-6 p-5 max-w-[17%] h-full border-l">
             <div class="flex flex-col space-y-4">
                 <h1 class="font-bold font-sans text-sm">Notifications</h1>
                 <NotificationItem
-                    v-for="item in props.notification"
+                    v-for="item,index in props.notification"
+                    :key="index"
                     type="notification"
                     :message="item.message"
                     :time="item.time"
@@ -37,6 +38,7 @@ const props = defineProps<SideBarProps>()
                 <h1 class="font-bold font-sans text-sm">Demands</h1>
                 <NotificationItem
                     v-for="item in props.demands"
+                    :key="`${item.username}-${item.time}`"
                     type="demande"
                     :message="item.message"
                     :time="item.time"

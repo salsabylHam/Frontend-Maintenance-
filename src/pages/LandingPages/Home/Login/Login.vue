@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Button from '@components/ui/button/Button.vue'
-import { useField, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@components/ui/form'

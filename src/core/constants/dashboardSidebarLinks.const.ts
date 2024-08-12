@@ -8,30 +8,30 @@ const sidebarNavigation: SideBarProps['config'] = [
                 type: 'button',
                 label: 'Overview',
                 icon: 'ph:chart-pie-slice-duotone',
-                to: 'Overview',
+                to: '/main/overview',
             },
             {
-                type: 'button',
+                type: 'dropdown',
                 label: 'Stocks',
-                to: 'Stockes',
+                // to: 'Stockes',
                 icon: 'ph:dropbox-logo-fill',
-                // links: [
-                //     {
-                //         label: 'Pices',
-                //         to: 'home',
-                //         icon: 'ph:puzzle-piece',
-                //     },
-                //     {
-                //         label: 'Machines',
-                //         to: 'main',
-                //         icon: 'ph:crane',
-                //     },
-                //     {
-                //         label: 'Order',
-                //         to: 'home',
-                //         icon: 'ph:shopping-cart',
-                //     },
-                // ],
+                links: [
+                    {
+                        label: 'Pices',
+                        to: '/main/stocks/pieces',
+                        icon: 'ph:screwdriver-duotone',
+                    },
+                    {
+                        label: 'Machines',
+                        to: '/main/stocks/machines',
+                        icon: 'ph:crane',
+                    },
+                    {
+                        label: 'Order',
+                        to: '/main/stocks/home',
+                        icon: 'ph:shopping-cart',
+                    },
+                ],
             },
         ],
     },

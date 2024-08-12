@@ -12,12 +12,12 @@ import {
 } from '@tanstack/vue-table'
 import DataTableToolbar from './DataTableToolbar.vue'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@components/ui/table'
-import type { Piece } from './columns'
+import type { Machine } from './columns'
 import { ref } from 'vue'
 import { valueUpdater } from '@lib/utils'
 const props = defineProps<{
-    columns: ColumnDef<Piece, any>[]
-    data: Piece[]
+    columns: ColumnDef<Machine, any>[]
+    data: Machine[]
 }>()
 const sorting = ref<SortingState>([])
 const columnFilters = ref<ColumnFiltersState>([])
@@ -60,7 +60,7 @@ const table = useVueTable({
 
 <template>
     <div>
-        <DataTableToolbar copy-key="code" :table="table" />
+        <DataTableToolbar copy-key="name" :table="table" />
         <Table>
             <TableHeader>
                 <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">

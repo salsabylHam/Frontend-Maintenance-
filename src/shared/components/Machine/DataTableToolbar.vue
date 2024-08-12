@@ -3,27 +3,28 @@ import Button from '@components/ui/button/Button.vue'
 import { Icon } from '@iconify/vue'
 import Separator from '@components/ui/separator/Separator.vue'
 import Search from './DataTableColumnActions/Search.vue'
-import { computed, ref } from 'vue'
+import { computed, defineAsyncComponent, ref } from 'vue'
 import { Table } from '@tanstack/vue-table'
-import { Piece } from './columns'
+import { Machine } from './columns'
 import DataTableViewOptions from './DataTableViewOptions.vue'
 import Delete from './DataTableColumnActions/Delete.vue'
 import Copy from './DataTableColumnActions/Copy.vue'
 import Sort from './DataTableColumnActions/Sort.vue'
-import Create from './DataTableColumnActions/Create.vue'
-import { usePiecesStore } from '@/core/stores/piece.store'
+import { useMachineStore } from '@/core/stores'
 interface DataTableToolbarProps {
-    table: Table<Piece>
+    table: Table<Machine>
     copyKey: string
 }
-const piecesStore = usePiecesStore()
+const Create = defineAsyncComponent(() => import('./DataTableColumnActions/Create.vue'))
+
+const machinesStore = useMachineStore()
 const refetchData = async () => {
     isLoading.value = true
-    await piecesStore.getPieces({})
+    await machinesStore.getMachines({})
     isLoading.value = false
 }
 const props = defineProps<DataTableToolbarProps>()
-const columnNames: (keyof Piece)[] = ['discription', 'code', 'quantity', 'price'] as const
+const columnNames: (keyof Machine)[] = ['description', 'name', 'quantity', 'price'] as const
 const isFiltered = computed(() => props.table.getState().columnFilters.length > 0)
 const isLoading = ref<Boolean>(false)
 </script>
@@ -31,7 +32,9 @@ const isLoading = ref<Boolean>(false)
 <template>
     <div class="flex justify-center items-center p-2 h-14 space-x-2 bg-secondary rounded-sm">
         <div class="flex justify-center space-x-2 items-center">
-            <Create />
+            <Suspense>
+                <Create />
+            </Suspense>
             <Button variant="ghost" size="icon">
                 <Icon icon="ph:funnel-simple-bold" />
             </Button>
@@ -45,6 +48,7 @@ const isLoading = ref<Boolean>(false)
                 </div>
             </div>
             <Delete :table="props.table" />
+
             <Copy :table="props.table" copy-key="code" />
             <Button
                 v-if="isFiltered"
@@ -59,7 +63,7 @@ const isLoading = ref<Boolean>(false)
                 <Icon icon="svg-spinners:270-ring-with-bg" class="h-5 w-5" />
             </Button>
             <div class="relative flex flex-row-reverse flex-grow h-5 items-center">
-                <Search :table="props.table" column="code" />
+                <Search :table="props.table" column="name" />
             </div>
             <DataTableViewOptions :table="props.table" />
             <Button @click="refetchData" variant="ghost" size="icon">

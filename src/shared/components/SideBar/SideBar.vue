@@ -25,10 +25,10 @@ const props = defineProps<SideBarProps>()
 <template>
     <Transition name="left-sidebar">
         <div
-            v-if="!props.isSidebarCollapsed"
+            v-show="!props.isSidebarCollapsed"
             :class="
                 cn(
-                    'md:fixed z-10 flex flex-col h-full w-full max-w-56 md:px-5 px-3 py-4 space-y-8 items-start border-r font-sans font-normal ease-in-out',
+                    'md:fixed z-10 flex flex-col h-full w-full max-w-[15%] md:px-5 px-3 py-4 space-y-8 items-start border-r font-sans font-normal ease-in-out',
                 )
             "
         >

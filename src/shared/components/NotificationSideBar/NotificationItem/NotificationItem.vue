@@ -10,12 +10,12 @@ export type NotificationItemProps = {
 } & (
     | {
           type: 'notification'
-          variant: 'danger' | 'normal' | 'success'
+          variant?: 'danger' | 'normal' | 'success'
       }
     | {
           type: 'demande'
           avatar?: string
-          username: string
+          username?: string
       }
 )
 

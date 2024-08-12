@@ -8,17 +8,17 @@ const historyStore = useHistoryStore()
 </script>
 
 <template>
-    <Tabs default-value="Favorites" class="hidden md:block w-full font-sans">
-        <TabsList class="bg-primary text-accent">
+    <Tabs default-value="Favorites" class="hidden md:flex flex-col w-full font-sans">
+        <TabsList class="bg-primary text-accent flex w-full">
             <TabsTrigger
                 value="Favorites"
-                class="border-0 !shadow-none data-[state=active]:text-accent-foreground bg-none !font-normal"
+                class="border-0 !shadow-none w-full data-[state=active]:text-accent-foreground bg-none !font-normal"
             >
                 Favorites
             </TabsTrigger>
             <TabsTrigger
                 value="Recently"
-                class="border-0 !shadow-none data-[state=active]:text-muted-foreground bg-none !font-normal"
+                class="border-0 !shadow-none w-full data-[state=active]:text-muted-foreground bg-none !font-normal"
             >
                 Recently
             </TabsTrigger>

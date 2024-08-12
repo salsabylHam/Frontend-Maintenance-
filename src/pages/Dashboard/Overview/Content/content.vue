@@ -123,15 +123,8 @@ const trend = (val: number) => {
             :trend="trend(state.machine.rate)"
         />
     </div>
-    <div class="flex justify-between h-fit">
-        <div
-            :class="
-                cn(
-                    'w-full max-w-[29rem] bg-background border rounded-lg p-6',
-                    dashboardStore.isAnySidebarCollapsed() && '!max-w-[37rem]',
-                )
-            "
-        >
+    <div class="relative flex justify-between h-fit space-x-2">
+        <div :class="cn('w-full bg-background border rounded-lg p-6',dashboardStore.isAnySidebarCollapsed() && !dashboardStore.isAllSidebarCollapsed()&& 'max-w-[50%]',dashboardStore.isAllSidebarCollapsed() && 'max-w-[45%]',!dashboardStore.isAnySidebarCollapsed()&& 'max-w-[60%]')">
             <h2 class="text-secondary-foreground font-bold">User increase rate</h2>
             <AreaChart
                 class="w-full h-56 mb-8"
@@ -142,14 +135,7 @@ const trend = (val: number) => {
                 :categories="['user count']"
             />
         </div>
-        <div
-            :class="
-                cn(
-                    'w-full max-w-[29rem] bg-background border rounded-lg p-6',
-                    dashboardStore.isAnySidebarCollapsed() && '!max-w-[37rem]',
-                )
-            "
-        >
+        <div :class="cn('w-full bg-background border rounded-lg p-6',dashboardStore.isAnySidebarCollapsed() && !dashboardStore.isAllSidebarCollapsed()&& 'max-w-[50%]',dashboardStore.isAllSidebarCollapsed()&&'max-w-[45%]',!dashboardStore.isAnySidebarCollapsed()&& 'max-w-96')">
             <h2 class="text-secondary-foreground font-bold">Demands by priority</h2>
             <DonutChart
                 class="w-full h-56 mb-8"

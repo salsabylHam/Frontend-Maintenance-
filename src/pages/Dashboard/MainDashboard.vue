@@ -67,8 +67,10 @@ const demands: NotificationSideBarProps['demands'] = [
             :class="
                 cn(
                     'relative flex-1',
-                    !dashboardStore.isRightSidebarCollapsed && 'mr-[17.5rem]',
-                    !dashboardStore.isLeftSidebarCollapsed && 'md:pl-56',
+                    !dashboardStore.isRightSidebarCollapsed && dashboardStore.isLeftSidebarCollapsed && 'mr-[17%]',
+                    !dashboardStore.isRightSidebarCollapsed && !dashboardStore.isLeftSidebarCollapsed && 'mr-[17%] ml-[15%]',
+                    !dashboardStore.isLeftSidebarCollapsed && dashboardStore.isRightSidebarCollapsed && 'ml-[15%]',
+
                 )
             "
         >
@@ -76,7 +78,7 @@ const demands: NotificationSideBarProps['demands'] = [
                 v-model:is-right-sidebar-collapsed="dashboardStore.isRightSidebarCollapsed"
                 v-model:is-left-sidebar-collapsed="dashboardStore.isLeftSidebarCollapsed"
             />
-            <RouterView />
+            <router-view />
         </main>
         <NotificationSideBar
             :notification="notifications"
