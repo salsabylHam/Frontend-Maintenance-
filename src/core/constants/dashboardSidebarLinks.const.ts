@@ -26,13 +26,20 @@ const sidebarNavigation: SideBarProps['config'] = [
                         to: '/main/stocks/machines',
                         icon: 'ph:crane',
                     },
-                    {
-                        label: 'Order',
-                        to: '/main/stocks/home',
-                        icon: 'ph:shopping-cart',
-                    },
                 ],
             },
+            {
+                type: 'button',
+                label: 'Clients',
+                icon: 'ph:users-three-duotone',
+                to: '/main/clients'
+            },
+            {
+                type: 'button',
+                label: 'Contracts',
+                icon: 'ph:suitcase-simple-duotone',
+                to: '/main/contracts'
+            }
         ],
     },
 ]

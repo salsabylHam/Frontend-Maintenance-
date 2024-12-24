@@ -26,7 +26,7 @@ import { useMachineStore, usePiecesStore } from '@/core/stores'
 import { vAutoAnimate } from '@formkit/auto-animate/vue'
 import { computed, onMounted } from 'vue'
 import { Piece } from '@components/Piece/columns'
-import { ComboboxAnchor, ComboboxInput, ComboboxPortal, ComboboxRoot } from 'radix-vue'
+import { ComboboxAnchor, ComboboxContent, ComboboxInput, ComboboxPortal, ComboboxRoot } from 'radix-vue'
 import { CommandEmpty, CommandGroup, CommandItem, CommandList } from '@components/ui/command'
 import {
     TagsInput,
@@ -36,7 +36,6 @@ import {
     TagsInputItemText,
 } from '@components/ui/tags-input'
 import { ref } from 'vue'
-import useClickOutside from '@composable/useClickOutside'
 
 const machinStore = useMachineStore()
 const pieceStore = usePiecesStore()
@@ -64,13 +63,11 @@ const { handleSubmit, setFieldValue, values } = useForm({
 let pieces = ref<any[]>()
 const onSubmit = handleSubmit(async (values) => {
     const machine = await machinStore.createMachine(values)
+    open.value = false
 })
 const filteredPieces = computed<any[]>(() => {
     const filtered = (pieces.value || []).filter((p) => !selected.value.includes(p.label))
     return filtered
-})
-useClickOutside(comboboxRef, () => {
-    open.value = false
 })
 
 onMounted(async () => {
@@ -83,9 +80,9 @@ onMounted(async () => {
 })
 </script>
 <template>
-    <Drawer>
+    <Drawer v-model:open="open">
         <DrawerTrigger as-child>
-            <Button variant="ghost" size="icon" @click="">
+            <Button variant="ghost" size="icon">
                 <Icon icon="ph:plus" />
             </Button>
         </DrawerTrigger>
@@ -95,10 +92,9 @@ onMounted(async () => {
                     <DrawerHeader>
                         <DrawerTitle>Create machine</DrawerTitle>
                         <DrawerDescription>
-                            Fill here to create a machine. Click create when you're done.</DrawerDescription
-                        >
+                            Fill here to create a machine. Click create when you're done.</DrawerDescription>
                     </DrawerHeader>
-                    <div class="grid gap-4 py-4">
+                    <div class="grid !z-[53] gap-4 py-4">
                         <FormField v-slot="{ componentField }" name="name">
                             <FormItem v-auto-animate>
                                 <FormLabel>Name</FormLabel>
@@ -117,92 +113,78 @@ onMounted(async () => {
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        <FormField name="pieces" v-slot="{ setValue, value }">
-                            <FormItem v-auto-animate>
-                                <FormLabel> Pieces </FormLabel>
-                                <FormControl class="relative">
-                                    <TagsInput class="px-0 gap-0 relative" :model-value="selected">
-                                        <div class="flex gap-2 flex-wrap items-center px-3">
-                                            <TagsInputItem v-for="item in selected" :key="item" :value="item">
-                                                <TagsInputItemText />
-                                                <TagsInputItemDelete />
-                                            </TagsInputItem>
-                                        </div>
+                        <Suspense>
 
-                                        <ComboboxRoot
-                                            ref="comboboxRef"
-                                            v-model="selected"
-                                            v-model:open="open"
-                                            v-model:searchTerm="searchTerm"
-                                            class="w-full"
-                                        >
-                                            <ComboboxAnchor as-child>
-                                                <ComboboxInput placeholder="Framework..." as-child>
-                                                    <TagsInputInput
-                                                        class="w-full px-3"
-                                                        :class="selected.length > 0 ? 'mt-2' : ''"
-                                                        @keydown.enter.prevent
-                                                    />
-                                                </ComboboxInput>
-                                            </ComboboxAnchor>
+                            <FormField name="pieces" class="" v-slot="{ setValue, value }">
+                                <FormItem v-auto-animate>
+                                    <FormLabel> Pieces </FormLabel>
+                                    <FormControl class="relative !z-51">
+                                        <TagsInput class="px-0 gap-0 relative" :model-value="selected">
+                                            <div class="flex gap-2 flex-wrap items-center px-3">
+                                                <TagsInputItem v-for="item in selected" :key="item" :value="item">
+                                                    <TagsInputItemText />
+                                                    <TagsInputItemDelete />
+                                                </TagsInputItem>
+                                            </div>
 
-                                            <ComboboxPortal>
-                                                <CommandList
-                                                    position="popper"
-                                                    class="w-[--radix-popper-anchor-width] !z-[51] rounded-md mt-2 border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
-                                                >
-                                                    <CommandEmpty />
-                                                    <CommandGroup>
-                                                        <CommandItem
-                                                            v-for="piece in filteredPieces"
-                                                            :key="piece.value"
-                                                            :value="piece.label"
-                                                            @select.prevent="
-                                                                (ev) => {
-                                                                    if (typeof ev.detail.value === 'string') {
-                                                                        searchTerm = ''
-                                                                        selected.push(ev.detail.value)
-                                                                        setValue([...(value || []), piece.value])
+                                            <ComboboxRoot ref="comboboxRef" v-model="selected" 
+                                                v-model:searchTerm="searchTerm" class="w-full">
+                                                <ComboboxAnchor as-child>
+                                                    <ComboboxInput placeholder="Pieces..." as-child>
+                                                        <TagsInputInput class="w-full px-3"
+                                                            :class="selected.length > 0 ? 'mt-2' : ''"
+                                                            @keydown.enter.prevent />
+                                                    </ComboboxInput>
+                                                </ComboboxAnchor>
+
+                                                <ComboboxPortal>
+                                                    <ComboboxContent>
+                                                        <CommandList position="popper"
+                                                            class="w-[--radix-popper-anchor-width] !z-[51] rounded-md mt-2 border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
+                                                            <CommandEmpty />
+                                                            <CommandGroup>
+                                                                <CommandItem v-for="piece in filteredPieces"
+                                                                    :key="piece.value" :value="piece.label"
+                                                                    @select.prevent="(ev) => {
+                                                                        if (typeof ev.detail.value === 'string') {
+                                                                            searchTerm = ''
+                                                                            selected.push(ev.detail.value)
+                                                                            setValue([...(value || []), piece.value])
+                                                                        }
+                                                                  
                                                                     }
-                                                                    if (filteredPieces.length === 0) {
-                                                                        open = false
-                                                                    }
-                                                                }
-                                                            "
-                                                        >
-                                                            {{ piece.label }}
-                                                        </CommandItem>
-                                                    </CommandGroup>
-                                                </CommandList>
-                                            </ComboboxPortal>
-                                        </ComboboxRoot>
-                                    </TagsInput>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
+                                                                        ">
+                                                                    {{ piece.label }}
+                                                                </CommandItem>
+                                                            </CommandGroup>
+                                                        </CommandList>
+                                                    </ComboboxContent>
+
+                                                </ComboboxPortal>
+                                            </ComboboxRoot>
+                                        </TagsInput>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            </FormField>
+                        </Suspense>
+
                         <FormField name="price">
                             <FormItem v-auto-animate>
                                 <FormLabel> price </FormLabel>
-                                <NumberField
-                                    class="gap-2"
-                                    :min="0"
-                                    :format-options="{
-                                        style: 'currency',
-                                        currency: 'EUR',
-                                        currencyDisplay: 'symbol',
-                                        currencySign: 'accounting',
-                                    }"
-                                    @update:model-value="
-                                        (v) => {
-                                            if (v) {
-                                                setFieldValue('price', v)
-                                            } else {
-                                                setFieldValue('price', undefined)
-                                            }
-                                        }
-                                    "
-                                >
+                                <NumberField class="gap-2" :min="0" :format-options="{
+                                    style: 'currency',
+                                    currency: 'EUR',
+                                    currencyDisplay: 'symbol',
+                                    currencySign: 'accounting',
+                                }" @update:model-value="(v) => {
+                                    if (v) {
+                                        setFieldValue('price', v)
+                                    } else {
+                                        setFieldValue('price', undefined)
+                                    }
+                                }
+                                    ">
                                     <NumberFieldContent>
                                         <NumberFieldDecrement />
                                         <FormControl>
@@ -217,19 +199,14 @@ onMounted(async () => {
                         <FormField name="quantity" v-slot="{ componentField }">
                             <FormItem v-auto-animate>
                                 <FormLabel> quantity </FormLabel>
-                                <NumberField
-                                    class="gap-2"
-                                    :min="1"
-                                    @update:model-value="
-                                        (v) => {
-                                            if (v) {
-                                                setFieldValue('quantity', v)
-                                            } else {
-                                                setFieldValue('quantity', undefined)
-                                            }
-                                        }
-                                    "
-                                >
+                                <NumberField class="gap-2" :min="1" @update:model-value="(v) => {
+                                    if (v) {
+                                        setFieldValue('quantity', v)
+                                    } else {
+                                        setFieldValue('quantity', undefined)
+                                    }
+                                }
+                                    ">
                                     <NumberFieldContent>
                                         <NumberFieldDecrement />
                                         <FormControl>

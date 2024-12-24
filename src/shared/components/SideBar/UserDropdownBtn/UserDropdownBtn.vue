@@ -54,7 +54,7 @@ const props = defineProps<UserDropdownBtnProps>()
 </script>
 
 <template>
-    <DropdownMenu class="text-primary">
+    <DropdownMenu>
         <DropdownMenuTrigger as-child>
             <Button
                 variant="ghost"

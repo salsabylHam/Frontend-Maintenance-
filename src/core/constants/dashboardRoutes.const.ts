@@ -7,7 +7,7 @@ export default {
         path: '/main/stocks/pieces',
         name: 'Pieces',
     },
-    MACHINES:{
+    MACHINES: {
         path: '/main/stocks/machines',
         name: 'Machines',
     },
@@ -15,4 +15,12 @@ export default {
         path: '/main/overview',
         name: 'Overview',
     },
+    CLIENTS: {
+        path: '/main/clients',
+        name: 'Clients',
+    },
+    CONTRACTS: {
+        path: '/main/contracts',
+        name: 'Contracts',
+    }
 }

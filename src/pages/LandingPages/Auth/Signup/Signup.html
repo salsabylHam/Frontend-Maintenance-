@@ -1,0 +1,26 @@
+<div class="flex col-span-3 md:col-span-1 flex-col px-12 py-12 w-full h-full bg-background font-['Inter']">
+    <div class="flex flex-grow flex-col space-y-12">
+        <div class="text-foreground hover:!text-primary w-fit cursor-pointer flex flex-row space-x-2 items-center">
+            <RouterLink to="/">
+                <div class="border rounded-sm shadow-sm p-2 bg-background">
+                    <Icon icon="ant-design:thunderbolt-filled" class="text-inherit h-4 w-4"></Icon>
+                </div>
+            </RouterLink>
+            <span class="text-sm tracking-wider text-inherit uppercase font-semibold flex items-center">
+                Factory Bliz
+            </span>
+        </div>
+        <main class="flex flex-col space-y-6">
+            <h1 class="font-semibold text-lg">Welcome to Factory Bliz</h1>
+
+        </main>
+    </div>
+
+    <div class="flex justify-between items-center w-full">
+        <RouterLink to="/" class="flex space-x-1 items-center text-xs my-auto">
+            <img class="h-4 w-5" src="@/assets/img/DATIUM-02.png" />
+            <span> Datuim-sass </span>
+        </RouterLink>
+        <span class="text-xs">© Datuim-sass 2021</span>
+    </div>
+</div>

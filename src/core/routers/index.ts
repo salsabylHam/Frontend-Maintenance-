@@ -1,51 +1,75 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { ROUTES, DASHBOARD_ROUTES } from '@constants'
 import authGuard from '../guards/auth.guard'
-import { defineAsyncComponent } from 'vue'
 const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
+    scrollBehavior: (to, _, savedPosition) => {
+        if (savedPosition) {
+            return savedPosition
+        } else if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth'
+            }
+        } else {
+            return { x: 0, y: 0 }
+        }
+    },
     routes: [
         {
             ...ROUTES.HOME,
-            component: defineAsyncComponent(() => import('@pages/LandingPages/Home/Home.vue')),
-            redirect: ROUTES.SIGN_IN.path,
+            component: () => import('@pages/LandingPages/Home/Home.vue')
+        },
+        {
+            ...ROUTES.AUTH,
+            component: () => import('@pages/LandingPages/Auth/Auth.vue'),
+            redirect: `${ROUTES.AUTH.path}/${ROUTES.LOGIN.path}`,
             beforeEnter: authGuard,
             children: [
                 {
-                    ...ROUTES.SIGN_IN,
-                    component: defineAsyncComponent(() => import('@pages/LandingPages/Home/Login/Login.vue')),
+                    ...ROUTES.LOGIN,
+                    component: () => import('@/pages/LandingPages/Auth/Login/Login.vue'),
                 },
                 {
                     ...ROUTES.SIGN_UP,
-                    component: defineAsyncComponent(() => import('@pages/LandingPages/Home/Signup/Signup.vue')),
+                    component: () => import('@/pages/LandingPages/Auth/Signup/Signup.vue'),
                 },
             ],
         },
         {
             ...ROUTES.MAIN,
-            component: () => defineAsyncComponent(() => import('@pages/Dashboard/MainDashboard.vue')),
-            redirect: DASHBOARD_ROUTES.Overview.path,
+            component: () => import('@pages/Dashboard/MainDashboard.vue'),
+            redirect: `${DASHBOARD_ROUTES.Overview.path}`,
             beforeEnter: authGuard,
             children: [
                 {
                     ...DASHBOARD_ROUTES.Overview,
-                    component: defineAsyncComponent(() => import('@pages/Dashboard/Overview/Overview.vue')),
+                    component: () => import('@pages/Dashboard/Overview/Overview.vue'),
                 },
                 {
                     ...DASHBOARD_ROUTES.STOCKS,
                     children: [
                         {
                             ...DASHBOARD_ROUTES.PIECES,
-                            component: defineAsyncComponent(() => import('@/pages/Dashboard/Stocks/Pieces.vue')),
+                            component: () => import('@/pages/Dashboard/Stocks/Pieces.vue'),
                         },
                         {
                             ...DASHBOARD_ROUTES.MACHINES,
-                            component: defineAsyncComponent(() => import('@/pages/Dashboard/Stocks/Machines.vue')),
+                            component: () => import('@/pages/Dashboard/Stocks/Machines.vue'),
                         },
                     ],
                 },
+                {
+                    ...DASHBOARD_ROUTES.CLIENTS,
+                    component: () => import('@pages/Dashboard/Clients/Clients.vue')
+                },
+                {
+                    ...DASHBOARD_ROUTES.CONTRACTS,
+                    component: () => import('@pages/Dashboard/Contracts/Contracts.vue')
+                }
             ],
         },
+
     ],
 })
 export default router

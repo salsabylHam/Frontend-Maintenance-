@@ -22,10 +22,15 @@ export const useMachineStore = defineStore('machine', {
             })
         },
         async createMachine(machine: any) {
-            return window.$axios.post(`${env.BACKEND_BASE_URL}/api/v1/machine`, machine)
+            return window.$axios.post(`${env.BACKEND_BASE_URL}/api/v1/machine`, machine).then(()=>{
+                this.$patch({ machines: [...this.machines, machine as Machine   ] })
+            })
         },
         async deleteMachine(id: number) {
-            return window.$axios.delete(`${env.BACKEND_BASE_URL}/api/v1/machine/${id}`)
+            return window.$axios.delete(`${env.BACKEND_BASE_URL}/api/v1/machine/${id}`).then(()=>{
+                this.$patch({ machines: this.machines.filter((machine) => machine.id != id) })
+
+            })
         },
         async bulkDeleteMachine(machines: Machine[]) {
             return await Promise.all(machines.map((machine) => this.deleteMachine(machine.id)))

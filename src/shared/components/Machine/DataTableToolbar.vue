@@ -43,7 +43,7 @@ const isLoading = ref<Boolean>(false)
         <div class="flex flex-grow items-center space-x-2">
             <div class="flex items-center space-x-4">
                 <Separator orientation="vertical" class="h-4 bg-secondary-foreground"></Separator>
-                <div v-if="props.table.getIsSomeRowsSelected()">
+                <div v-if="props.table.getSelectedRowModel().rows.length > 0">
                     <p class="text-xs">{{ props.table.getSelectedRowModel().rows.length }} Selected</p>
                 </div>
             </div>
