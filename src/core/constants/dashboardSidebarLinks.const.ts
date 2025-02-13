@@ -34,12 +34,7 @@ const sidebarNavigation: SideBarProps['config'] = [
                 icon: 'ph:users-three-duotone',
                 to: '/main/clients'
             },
-            {
-                type: 'button',
-                label: 'Contracts',
-                icon: 'ph:suitcase-simple-duotone',
-                to: '/main/contracts'
-            }
+            
         ],
     },
 ]

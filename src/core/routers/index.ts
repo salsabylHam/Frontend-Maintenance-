@@ -63,10 +63,6 @@ const router = createRouter({
                     ...DASHBOARD_ROUTES.CLIENTS,
                     component: () => import('@pages/Dashboard/Clients/Clients.vue')
                 },
-                {
-                    ...DASHBOARD_ROUTES.CONTRACTS,
-                    component: () => import('@pages/Dashboard/Contracts/Contracts.vue')
-                }
             ],
         },
 

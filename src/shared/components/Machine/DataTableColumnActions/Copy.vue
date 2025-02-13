@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CopyProps } from '@interfaces/table'
-import { Piece } from '../columns'
+import { Machine } from '../columns'
 import { useToast } from '@components/ui/toast'
 import { ButtonHTMLAttributes, h, ref, watch } from 'vue'
 import { copyToClipBoard } from '@lib/utils'
@@ -9,7 +9,7 @@ import { Icon } from '@iconify/vue'
 import PopoverTrigger from '../../ui/popover/PopoverTrigger.vue'
 import PopoverContent from '../../ui/popover/PopoverContent.vue'
 import Popover from '../../ui/popover/Popover.vue'
-const props = defineProps<CopyProps<Piece>>()
+const props = defineProps<CopyProps<Machine>>()
 
 const { toast } = useToast()
 const isCopied = ref()
@@ -20,7 +20,7 @@ const copy = async () => {
             isCopied.value = false
             clearTimeout(reset)
         }
-        const keyValue: string = props.table.getSelectedRowModel().rows[0].getValue(props.copyKey)
+        const keyValue: string = props.table.getSelectedRowModel().rows[0].getValue(props.copyKey as any)
         await copyToClipBoard(keyValue)
         isCopied.value = true
         reset = setTimeout(() => {

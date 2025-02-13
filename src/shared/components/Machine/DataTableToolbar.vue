@@ -49,7 +49,7 @@ const isLoading = ref<Boolean>(false)
             </div>
             <Delete :table="props.table" />
 
-            <Copy :table="props.table" copy-key="code" />
+            <Copy :table="props.table" copy-key="name" />
             <Button
                 v-if="isFiltered"
                 variant="ghost"

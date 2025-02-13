@@ -10,18 +10,18 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu'
-import type { Piece } from '../columns'
+import type { Machine } from '../columns'
 import { DataTableColumnSortProps } from '@/shared/interfaces/table'
 import DropdownMenuLabel from '../../ui/dropdown-menu/DropdownMenuLabel.vue'
 import Separator from '../../ui/separator/Separator.vue'
 
-const props = defineProps<DataTableColumnSortProps<Piece>>()
+const props = defineProps<DataTableColumnSortProps<Machine>>()
 
-const toggleSorting = (columnName: keyof Piece) => {
+const toggleSorting = (columnName: keyof Machine) => {
     if (props.table.getAllColumns()) {
         props.table
-            .getColumn(columnName)
-            ?.toggleSorting(props.table.getColumn(columnName)?.getIsSorted() == 'desc' ? false : true)
+            .getColumn(columnName as any)
+            ?.toggleSorting(props.table.getColumn(columnName as any)?.getIsSorted() == 'desc' ? false : true)
     }
 }
 </script>
@@ -48,12 +48,12 @@ const toggleSorting = (columnName: keyof Piece) => {
                     </span>
                     <Icon
                         icon="ph:arrow-down"
-                        v-if="props.table.getColumn(columnName)?.getIsSorted() === 'desc'"
+                        v-if="props.table.getColumn(columnName as any)?.getIsSorted() === 'desc'"
                         class="ml-2 h-4 w-4"
                     />
                     <Icon
                         icon="ph:arrow-up"
-                        v-else-if="props.table.getColumn(columnName)?.getIsSorted() === 'asc'"
+                        v-else-if="props.table.getColumn(columnName as any)?.getIsSorted() === 'asc'"
                         class="ml-2 h-4 w-4"
                     />
                     <Icon icon="ph:caret-up-down" v-else class="ml-2 h-4 w-4" />

@@ -26,7 +26,7 @@ export const columns: ColumnDef<Client>[] = [
         id: 'select',
         header: ({ table }) =>
             h(Checkbox, {
-                checked: table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate'),
+                checked: table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() ),
                 'onUpdate:checked': (value) => table.toggleAllPageRowsSelected(!!value),
                 ariaLabel: 'Select all',
                 class: 'translate-y-0.5 rounded',

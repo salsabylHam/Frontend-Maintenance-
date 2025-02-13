@@ -19,8 +19,5 @@ export default {
         path: '/main/clients',
         name: 'Clients',
     },
-    CONTRACTS: {
-        path: '/main/contracts',
-        name: 'Contracts',
-    }
+    
 }
