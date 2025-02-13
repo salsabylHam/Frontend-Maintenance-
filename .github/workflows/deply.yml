@@ -4,14 +4,14 @@ name: Build & Push Frontend to ECR
 on:
   push:
     branches:
-      - main
+      - front
 
 jobs:
   build:
     name: Build Frontend Image & push to ECR
     runs-on: ubuntu-latest
 
-    
+
     steps:
     
     # Étape 1 : Checkout le code source du dépôt
