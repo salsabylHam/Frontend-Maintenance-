@@ -11,6 +11,7 @@ jobs:
     name: Build Frontend Image & push to ECR
     runs-on: ubuntu-latest
 
+    
     steps:
     
     # Étape 1 : Checkout le code source du dépôt
